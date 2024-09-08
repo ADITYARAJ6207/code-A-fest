@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Chatbot</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    background-color: #4CAF50;
+    padding: 20px;
+    color: white;
+}
+
+#chatbox {
+    width: 500px;
+    height: 400px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+}
+
+#chatlog {
+    width: 100%;
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#userInput {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#sendBtn {
+    width: 15%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to TravelBot</h1>
+        <p>Plan your next adventure with our chatbot</p>
+    </header>
+    
+    <div id="chatbox">
+        <div id="chatlog"></div>
+        <input type="text" id="userInput" placeholder="Type your message here..." autofocus>
+        <button id="sendBtn">Send</button>
+    </div>
+
+    <!-- <script src="script.js"></script> -->
+     <script>
+document.getElementById('sendBtn').addEventListener('click', sendMessage);
+
+function sendMessage() {
+    let userInput = document.getElementById('userInput').value;
+    if (userInput === '') return;
+
+    let chatlog = document.getElementById('chatlog');
+    let userMessage = document.createElement('div');
+    userMessage.textContent = 'You: ' + userInput;
+    chatlog.appendChild(userMessage);
+
+    document.getElementById('userInput').value = '';
+
+    getBotResponse(userInput);
+}
+
+function getBotResponse(message) {
+    let chatlog = document.getElementById('chatlog');
+    let botMessage = document.createElement('div');
+
+    if (message.toLowerCase().includes('hello')) {
+        botMessage.textContent = 'Bot: Hello! How can I assist you in planning your travel?';
+    } else if (message.toLowerCase().includes('destination')) {
+        botMessage.textContent = 'Bot: Which type of destination do you prefer? Beaches, Mountains, or Adventure?';
+    } else if (message.toLowerCase().includes('hotels')) {
+        botMessage.textContent = 'Bot: Would you like suggestions for luxury or budget hotels?';
+    } else if (message.toLowerCase().includes('flights')) {
+        botMessage.textContent = 'Bot: Please provide your departure city and destination.';
+    } else if (message.toLowerCase().includes('beach')) {
+        botMessage.textContent = 'Bot: Some great beach destinations include Bali, Maldives, and Hawaii.';
+    } else if (message.toLowerCase().includes('mountain')) {
+        botMessage.textContent = 'Bot: You can explore the Alps, Rocky Mountains, or the Himalayas for great mountain trips.';
+    } else if (message.toLowerCase().includes('adventure')) {
+        botMessage.textContent = 'Bot: How about a thrilling trip to New Zealand for bungee jumping or white-water rafting?';
+    } else if (message.toLowerCase().includes('thank you')) {
+        botMessage.textContent = 'Bot: You’re welcome! Have a great trip!';
+    } else if (message.toLowerCase().includes('book')) {
+        botMessage.textContent = 'Bot: I can help you with booking flights, hotels, or even a full travel package. What would you like to book?';
+    } else {
+        botMessage.textContent = 'Bot: Sorry, I didn’t understand. Can you try again with different words?';
+    }
+
+    chatlog.appendChild(botMessage);
+    chatlog.scrollTop = chatlog.scrollHeight;
+}
+</script>
+
+
+</body>
+</html>

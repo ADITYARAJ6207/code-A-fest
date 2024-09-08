@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Religious Places</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f3f4f6;
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .header {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .nav__logo {
+            font-size: 2em;
+            font-weight: bold;
+            color: #4CAF50;
+            transition: color 0.3s;
+        }
+
+        .nav__list {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav__item {
+            list-style: none;
+        }
+
+        .nav__link {
+            font-size: 1.1em;
+            text-decoration: none;
+            color: #333;
+            padding: 8px 16px;
+            transition: color 0.3s, background-color 0.3s;
+            border-radius: 8px;
+        }
+
+        .nav__link:hover {
+            color: #fff;
+            background-color: #4CAF50;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        /* Grid Layout for Main Content */
+        .main-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 120px 20px 40px;
+            transition: background-color 0.3s;
+        }
+
+        .place-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 20px;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            overflow: hidden;
+        }
+
+        .place-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            overflow: hidden;
+            border-radius: 15px;
+            transition: transform 0.3s;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .place-container:hover .image-container img {
+            transform: scale(1.1);
+        }
+
+        .detail-container {
+            padding: 20px 0;
+        }
+
+        .detail-container h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .detail-container p {
+            font-size: 1em;
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .hotel-button {
+            padding: 12px 30px;
+            font-size: 1em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            align-self: flex-start;
+        }
+
+        .hotel-button:hover {
+            background-color: #45a049;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Light and Dark Theme Colors */
+        body.light-theme {
+            background-color: #f3f4f6;
+            color: #333;
+        }
+
+        body.dark-theme {
+            background-color: #1d1f21;
+            color: #ddd;
+        }
+
+        body.dark-theme .header {
+            background-color: rgba(40, 40, 40, 0.9);
+            color: #ddd;
+        }
+
+        body.dark-theme .nav__logo {
+            color: #4CAF50;
+        }
+
+        body.dark-theme .nav__link {
+            color: #ddd;
+        }
+
+        body.dark-theme .nav__link:hover {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark-theme .place-container {
+            background-color: #2c2c2c;
+            color: #ddd;
+        }
+
+        body.dark-theme .place-container h1 {
+            color: #eee;
+        }
+
+        body.dark-theme .place-container p {
+            color: #ccc;
+        }
+
+        body.dark-theme .hotel-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        body.dark-theme .hotel-button:hover {
+            background-color: #45a049;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .place-container {
+                padding: 15px;
+            }
+
+            .image-container img {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+
+    <header class="header">
+        <nav>
+            <a href="#" class="nav__logo">Travel Buddy</a>
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="index.html" class="nav__link">Home</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#about" class="nav__link">About</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#discover" class="nav__link">Discover</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#places" class="nav__link">Places</a>
+                </li>
+            </ul>
+            <span class="theme-toggle" id="theme-toggle">🌙</span>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <!-- Place 1 Container -->
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/golden.jpg" alt="Golden Temple">
+            </div>
+            <div class="detail-container">
+                <h1>Golden Temple</h1>
+                <p>The Golden Temple, located in Amritsar, India, is the holiest site in Sikhism. Known for its stunning gold-plated facade and serene atmosphere, it is a symbol of peace and spiritual harmony.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/golden-temple'">Book Hotel</button>
+            </div>
+        </div>
+
+        <!-- Place 2 Container -->
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/ram.jpg" alt="Ram Mandir">
+            </div>
+            <div class="detail-container">
+                <h1>Ram Mandir</h1>
+                <p>Situated in Ayodhya, India, Ram Mandir is a revered Hindu temple dedicated to Lord Rama. Its construction marks a significant moment in Hindu history, and it is a focal point for devotees from across the country.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/ram-mandir'">Book Hotel</button>
+            </div>
+        </div>
+
+        <!-- Place 3 Container -->
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/kedarnath.jpg" alt="Kedarnath">
+            </div>
+            <div class="detail-container">
+                <h1>Kedarnath</h1>
+                <p>Nestled in the Himalayas, Kedarnath is one of the four Char Dham pilgrimage sites dedicated to Lord Shiva. Its ancient temple, set against breathtaking mountain landscapes, draws thousands of devotees each year.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/kedarnath'">Book Hotel</button>
+            </div>
+        </div>
+
+        <!-- Place 4 Container -->
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/rameshwaram.jpg" alt="Rameshwar">
+            </div>
+            <div class="detail-container">
+                <h1>Rameshwar</h1>
+                <p>Rameshwar, also known as Rameswaram, is a sacred town in Tamil Nadu, India. It is renowned for the Ramanathaswamy Temple, a major pilgrimage site dedicated to Lord Shiva, and its association with the epic Ramayana.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/rameshwar'">Book Hotel</button>
+            </div>
+        </div>
+
+        <!-- Place 5 Container -->
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/vrindavan.jpg" alt="Vrindavan">
+            </div>
+            <div class="detail-container">
+                <h1>Vrindavan</h1>
+                <p>Vrindavan, located in Uttar Pradesh, India, is a vibrant town celebrated for its deep connection to Lord Krishna. Its numerous temples, ghats, and lively festivals make it a central hub of Krishna devotion and culture.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/vrindavan'">Book Hotel</button>
+            </div>
+        </div>
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/vrindavan.jpg" alt="Vrindavan">
+            </div>
+            <div class="detail-container">
+                <h1>Vrindavan</h1>
+                <p>Vrindavan, located in Uttar Pradesh, India, is a vibrant town celebrated for its deep connection to Lord Krishna. Its numerous temples, ghats, and lively festivals make it a central hub of Krishna devotion and culture.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/vrindavan'">Book Hotel</button>
+            </div>
+        </div>
+        
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/vrindavan.jpg" alt="Vrindavan">
+            </div>
+            <div class="detail-container">
+                <h1>Vrindavan</h1>
+                <p>Vrindavan, located in Uttar Pradesh, India, is a vibrant town celebrated for its deep connection to Lord Krishna. Its numerous temples, ghats, and lively festivals make it a central hub of Krishna devotion and culture.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/vrindavan'">Book Hotel</button>
+            </div>
+        </div>
+        <div class="place-container">
+            <div class="image-container">
+                <img src="assets/img/vrindavan.jpg" alt="Vrindavan">
+            </div>
+            <div class="detail-container">
+                <h1>Vrindavan</h1>
+                <p>Vrindavan, located in Uttar Pradesh, India, is a vibrant town celebrated for its deep connection to Lord Krishna. Its numerous temples, ghats, and lively festivals make it a central hub of Krishna devotion and culture.</p>
+                <button class="hotel-button" onclick="location.href='https://hotelbooking.com/vrindavan'">Book Hotel</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            body.classList.toggle('light-theme');
+            themeToggle.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+        });
+    </script>
+
+</body>
+</html>
